@@ -4,11 +4,12 @@ import type { UploadCredentials } from './types';
 export async function getUploadCredentials(
   sessionId: string,
   filename: string,
-  contentType: string
+  contentType: string,
+  documentType?: string
 ): Promise<UploadCredentials> {
   const response = await apiClient.post<UploadCredentials>(
     `/verifications/${sessionId}/uploads`,
-    { filename, contentType }
+    { filename, contentType, documentType }
   );
   return response.data;
 }

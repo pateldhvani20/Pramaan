@@ -10,7 +10,18 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
-RULES_DIR = Path(__file__).resolve().parent.parent.parent / 'rules' / 'documents'
+def _get_rules_dir() -> Path:
+    candidates = [
+        Path(__file__).resolve().parent.parent / 'rules' / 'documents',
+        Path('/var/task/rules/documents'),
+        Path(__file__).resolve().parent.parent.parent / 'rules' / 'documents',
+    ]
+    for c in candidates:
+        if c.is_dir():
+            return c
+    return candidates[0]
+
+RULES_DIR = _get_rules_dir()
 
 
 @dataclass

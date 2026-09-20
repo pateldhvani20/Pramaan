@@ -43,11 +43,12 @@ class PipelineStack(Stack):
             core_stack.kms_key.grant_encrypt_decrypt(fn)
             core_stack.raw_bucket.grant_read_write(fn)
 
-        # Textract permissions for extraction Lambda
-        extraction_lambda.add_to_role_policy(iam.PolicyStatement(
-            actions=["textract:AnalyzeDocument", "textract:DetectDocumentText"],
-            resources=["*"]
-        ))
+        # Textract & Rekognition permissions for extraction/verification Lambdas
+        for fn in [extraction_lambda, verification_lambda, persist_lambda]:
+            fn.add_to_role_policy(iam.PolicyStatement(
+                actions=["textract:AnalyzeDocument", "textract:DetectDocumentText", "rekognition:DetectText"],
+                resources=["*"]
+            ))
 
         # Bedrock permissions for explanation Lambda
         explanation_lambda.add_to_role_policy(iam.PolicyStatement(

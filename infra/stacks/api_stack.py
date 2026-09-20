@@ -3,6 +3,7 @@ from aws_cdk import (
     Duration,
     aws_apigateway as apigw,
     aws_lambda as _lambda,
+    aws_iam as iam,
 )
 from constructs import Construct
 
@@ -67,15 +68,21 @@ class ApiStack(Stack):
             runtime=_lambda.Runtime.PYTHON_3_12,
             handler="workflow.handlers.run_verification_handler",
             code=_lambda.Code.from_asset("../backend"),
-            timeout=Duration.seconds(10),
+            timeout=Duration.seconds(30),
             environment={
                 "DOCVERIFY_TABLE": core_stack.table.table_name,
+                "RAW_BUCKET": core_stack.raw_bucket.bucket_name,
                 "STATE_MACHINE_ARN": pipeline_stack.state_machine.state_machine_arn,
             }
         )
         core_stack.table.grant_read_write_data(run_lambda)
+        core_stack.raw_bucket.grant_read_write(run_lambda)
         core_stack.kms_key.grant_encrypt_decrypt(run_lambda)
         pipeline_stack.state_machine.grant_start_execution(run_lambda)
+        run_lambda.add_to_role_policy(iam.PolicyStatement(
+            actions=["textract:AnalyzeDocument", "textract:DetectDocumentText", "rekognition:DetectText"],
+            resources=["*"]
+        ))
 
         # --- API Gateway ---
 

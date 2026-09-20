@@ -1,8 +1,36 @@
 """
 Pydantic V2 data contracts for DocVerify.
 Contains all frozen data models used across the system.
+Supports both Pydantic V2 and pure Python standard library for AWS Lambda.
 """
-from pydantic import BaseModel, Field
+try:
+    from pydantic import BaseModel, Field
+except ImportError:
+    from dataclasses import field as Field
+    from typing import Any
+
+    class BaseModel:
+        def __init__(self, **kwargs: Any):
+            for k, v in kwargs.items():
+                setattr(self, k, v)
+
+        def model_dump(self) -> dict[str, Any]:
+            def _serialize(v: Any) -> Any:
+                if isinstance(v, list):
+                    return [_serialize(item) for item in v]
+                if isinstance(v, dict):
+                    return {k: _serialize(val) for k, val in v.items()}
+                if hasattr(v, "model_dump"):
+                    return v.model_dump()
+                if hasattr(v, "value"):
+                    return v.value
+                return v
+
+            return {k: _serialize(v) for k, v in self.__dict__.items() if not k.startswith('_')}
+
+        def dict(self) -> dict[str, Any]:
+            return self.model_dump()
+
 from enum import Enum
 from typing import Optional
 from datetime import datetime

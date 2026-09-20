@@ -1,0 +1,39 @@
+{
+  "documentType": "domicile",
+  "displayName": "Domicile Certificate",
+  "displayNameHi": "अधिवास प्रमाण पत्र",
+  "requiredFields": [
+    {"fieldName": "applicantName", "label": "Applicant Name", "labelHi": "आवेदक का नाम"},
+    {"fieldName": "issueDate", "label": "Date of Issue", "labelHi": "जारी करने की तिथि"}
+  ],
+  "optionalFields": [
+    {"fieldName": "state", "label": "State"},
+    {"fieldName": "district", "label": "District"},
+    {"fieldName": "validUntil", "label": "Valid Until"},
+    {"fieldName": "issuingAuthority", "label": "Issuing Authority"}
+  ],
+  "validity": {
+    "type": "rule_derived",
+    "monthsFromIssue": 36
+  },
+  "queries": [
+    {"alias": "applicantName", "text": "What is the name of the applicant?"},
+    {"alias": "issueDate", "text": "What is the date of issue?"},
+    {"alias": "state", "text": "What is the state of domicile?"},
+    {"alias": "district", "text": "What is the district?"},
+    {"alias": "validUntil", "text": "What is the validity date?"},
+    {"alias": "issuingAuthority", "text": "Who is the issuing authority?"}
+  ],
+  "signals": [
+    {"pattern": "(?i)domicile certificate", "weight": 40},
+    {"pattern": "(?i)residence certificate", "weight": 35},
+    {"pattern": "(?i)(permanent resident|bonafide resident)", "weight": 25},
+    {"pattern": "अधिवास प्रमाण पत्र", "weight": 30},
+    {"pattern": "(?i)district (magistrate|collector)", "weight": 20},
+    {"pattern": "(?i)marks obtained", "weight": -40},
+    {"pattern": "(?i)income certificate", "weight": -25},
+    {"pattern": "(?i)aadhaar", "weight": -30}
+  ],
+  "minScore": 50,
+  "minMargin": 20
+}

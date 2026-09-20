@@ -57,7 +57,8 @@ export default function DocumentUpload() {
         const credentials = await getUploadCredentials(
           sessionId,
           uploadItem.file.name,
-          uploadItem.file.type || 'application/pdf'
+          uploadItem.file.type || 'application/pdf',
+          docType
         );
 
         // 2. Upload directly to S3

@@ -1,0 +1,30 @@
+{
+  "profileId": "post-matric-scholarship-v1",
+  "displayName": "Post-Matric Scholarship",
+  "displayNameHi": "पोस्ट-मैट्रिक छात्रवृत्ति",
+  "rulesetVersion": "2026.09.1",
+  "reviewHorizonDays": 45,
+  "requiredDocuments": [
+    {"type": "aadhaar", "required": true, "displayName": "Aadhaar Card"},
+    {"type": "marksheet", "required": true, "displayName": "Academic Marksheet"},
+    {"type": "income_certificate", "required": true, "displayName": "Income Certificate"},
+    {"type": "domicile", "required": true, "displayName": "Domicile Certificate"},
+    {"type": "bank_proof", "required": false, "displayName": "Bank Passbook / Statement"}
+  ],
+  "crossDocumentChecks": [
+    {
+      "checkId": "X-NAME",
+      "field": "applicantName",
+      "documents": ["aadhaar", "marksheet", "income_certificate", "domicile"],
+      "matcher": "indic_name",
+      "onMismatch": "BLOCKING"
+    },
+    {
+      "checkId": "X-DOB",
+      "field": "dob",
+      "documents": ["aadhaar", "marksheet"],
+      "matcher": "exact_date",
+      "onMismatch": "BLOCKING"
+    }
+  ]
+}

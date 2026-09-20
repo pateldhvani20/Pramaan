@@ -8,7 +8,18 @@ from pathlib import Path
 from functools import lru_cache
 from typing import Any
 
-RULES_DIR = Path(__file__).resolve().parent.parent.parent / 'rules'
+def _get_rules_dir() -> Path:
+    candidates = [
+        Path(__file__).resolve().parent.parent / 'rules',
+        Path('/var/task/rules'),
+        Path(__file__).resolve().parent.parent.parent / 'rules',
+    ]
+    for c in candidates:
+        if c.is_dir():
+            return c
+    return candidates[0]
+
+RULES_DIR = _get_rules_dir()
 
 @lru_cache(maxsize=16)
 def load_profile(profile_id: str) -> dict[str, Any]:

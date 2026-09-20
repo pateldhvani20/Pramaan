@@ -57,6 +57,21 @@ export default function VerificationResult() {
 
   if (!session) return null;
 
+  if (!session.readinessStatus && (session.status === 'CREATED' || session.status === 'RUNNING')) {
+    return (
+      <div className="animate-in" style={{ textAlign: 'center', padding: 'var(--space-2xl) 0' }}>
+        <div className="spinner" style={{ margin: '0 auto 1.5rem' }} />
+        <h2 className="headline-md">Verification in Progress</h2>
+        <p className="body-md" style={{ color: 'var(--on-surface-variant)', marginBottom: '1.5rem' }}>
+          Your documents are being processed through the verification pipeline.
+        </p>
+        <button className="btn btn-primary" onClick={() => window.location.reload()}>
+          Refresh Status
+        </button>
+      </div>
+    );
+  }
+
   const readiness = session.readinessStatus || session.status || 'UNKNOWN';
   const findings = session.findings || [];
   const blockingFindings = findings.filter((f) => f.severity === 'BLOCKING');
@@ -74,7 +89,7 @@ export default function VerificationResult() {
         </svg>
       ),
       title: 'Application Verified',
-      desc: 'All documents passed verification checks. Your application is ready.',
+      desc: 'All documents passed verification checks. Your application is ready to submit.',
     },
     RED: {
       color: 'var(--danger)',
@@ -86,7 +101,19 @@ export default function VerificationResult() {
         </svg>
       ),
       title: 'Issues Found',
-      desc: 'Document verification found blocking issues that must be resolved.',
+      desc: 'Document verification found blocking issues that must be resolved before submission.',
+    },
+    ORANGE: {
+      color: 'var(--warning)',
+      bg: 'var(--warning-surface)',
+      icon: (
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" strokeWidth="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+          <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+      ),
+      title: 'Action Required',
+      desc: 'Some documents have warnings or missing fields that require attention.',
     },
     AMBER: {
       color: 'var(--warning)',
@@ -98,7 +125,7 @@ export default function VerificationResult() {
         </svg>
       ),
       title: 'Under Review',
-      desc: 'Some documents require manual review or have warnings.',
+      desc: 'Some documents require manual verification or have warnings.',
     },
   };
 
@@ -197,6 +224,11 @@ export default function VerificationResult() {
                       <code className="body-sm" style={{ color: 'var(--on-surface-variant)' }}>
                         {finding.findingId}
                       </code>
+                      {finding.ruleId && (
+                        <span className="badge" style={{ background: 'var(--surface-variant)', color: 'var(--on-surface)', fontSize: '0.75rem', padding: '0.125rem 0.375rem' }}>
+                          {finding.ruleId}
+                        </span>
+                      )}
                       <span className="body-sm" style={{ color: 'var(--outline)' }}>•</span>
                       <span className="body-sm" style={{ color: 'var(--on-surface-variant)', textTransform: 'capitalize' }}>
                         {finding.category}
@@ -214,6 +246,18 @@ export default function VerificationResult() {
                     <p className="body-sm" style={{ color: 'var(--on-surface-variant)', marginTop: '0.375rem' }}>
                       {finding.explanation}
                     </p>
+                  )}
+                  {finding.actionSteps && finding.actionSteps.length > 0 && (
+                    <div style={{ marginTop: '0.5rem', padding: '0.5rem 0.75rem', background: 'rgba(0,0,0,0.03)', borderRadius: 'var(--radius-sm)' }}>
+                      <span className="label-sm" style={{ color: 'var(--on-surface-variant)', display: 'block', marginBottom: '0.25rem' }}>
+                        RECOMMENDED ACTION:
+                      </span>
+                      <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.85rem' }}>
+                        {finding.actionSteps.map((step, sIdx) => (
+                          <li key={sIdx}>{step}</li>
+                        ))}
+                      </ul>
+                    </div>
                   )}
                 </div>
               );
