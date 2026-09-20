@@ -1,7 +1,8 @@
-# DocVerify — API Contract Specification
+# Pramaan (DocVerify) — API Contract Specification
 
-> **Base URL**: `https://{api-id}.execute-api.ap-south-1.amazonaws.com/prod`  
+> **Base URL**: `https://u99ao00u21.execute-api.ap-south-1.amazonaws.com/prod`  
 > **Protocol**: REST over HTTPS (TLS 1.3)  
+> **Region**: AWS `ap-south-1` (Mumbai)  
 > **Rate Limit**: 20 requests/second with burst capacity of 40 requests
 
 ---

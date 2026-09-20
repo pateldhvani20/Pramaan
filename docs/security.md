@@ -1,7 +1,8 @@
-# DocVerify — Security & Threat Model (OWASP Hardened)
+# Pramaan (DocVerify) — Security & Threat Model (OWASP Hardened & DPDP Act 2023)
 
-> **Standard**: OWASP Top 10 (2021) & LLM Top 10 Applied Architecture  
-> **Classification**: Production Security Specification
+> **Standards**: OWASP Top 10 (2021), OWASP Top 10 for LLMs, India DPDP Act 2023  
+> **Classification**: Production Security Specification  
+> **Core Tenet**: Zero-Retention Ephemeral Document Verification
 
 ---
 

@@ -1,16 +1,18 @@
-# DocVerify — System Architecture & Design Specification
+# Pramaan (प्रमाण / DocVerify) — System Architecture & Design Specification
 
 > **Version**: 1.0.0 (Ruleset: `2026.09.1`)  
 > **Target Region**: AWS `ap-south-1` (Mumbai)  
-> **Event**: First Commit — Bharat Builds Tour (WeMakeDevs × AWS)
+> **Event**: First Commit — Bharat Builds Tour (WeMakeDevs × AWS)  
+> **Live Web Application (HTTPS)**: [https://main.d2gfudksirk6lw.amplifyapp.com](https://main.d2gfudksirk6lw.amplifyapp.com)  
+> **Live Production API**: `https://u99ao00u21.execute-api.ap-south-1.amazonaws.com/prod/`  
 
 ---
 
 ## 1. Product Summary
 
-**DocVerify** is a deterministic document consistency and expiry verification pipeline designed for Indian student applications (scholarships, admissions, public schemes). DocVerify checks uploaded documents against one another and against policy-driven validity rules. It returns a deterministic readiness verdict with structured per-finding evidence, actionable resolution guidance (in English and Hindi), and immediately destroys raw document objects upon verification.
+**Pramaan (DocVerify)** is an intelligent, deterministic document consistency and expiry verification pipeline designed for Indian student applications (scholarships, admissions, public schemes). Pramaan checks uploaded documents against one another and against policy-driven validity rules. It returns a deterministic readiness verdict with structured per-finding evidence, actionable resolution guidance (in English and Hindi), and immediately destroys raw document objects upon verification.
 
-> *"DocVerify does not guess. A deterministic engine decides; the model only explains. And the document is gone before you finish reading the result."*
+> *"Pramaan does not guess. A deterministic engine decides; the model only explains. And the document is gone before you finish reading the result."*
 
 ---
 
