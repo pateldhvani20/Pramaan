@@ -1,0 +1,35 @@
+{
+  "documentType": "marksheet",
+  "displayName": "Academic Marksheet",
+  "displayNameHi": "अंकपत्र",
+  "requiredFields": [
+    {"fieldName": "applicantName", "label": "Student Name", "labelHi": "छात्र का नाम"},
+    {"fieldName": "dob", "label": "Date of Birth", "labelHi": "जन्म तिथि"},
+    {"fieldName": "passingYear", "label": "Year of Passing", "labelHi": "उत्तीर्ण वर्ष"}
+  ],
+  "optionalFields": [
+    {"fieldName": "rollNumber", "label": "Roll Number"},
+    {"fieldName": "boardName", "label": "Board / University"},
+    {"fieldName": "percentage", "label": "Percentage / CGPA"}
+  ],
+  "validity": {"type": "permanent"},
+  "queries": [
+    {"alias": "applicantName", "text": "What is the name of the student?"},
+    {"alias": "dob", "text": "What is the date of birth?"},
+    {"alias": "passingYear", "text": "What is the year of passing?"},
+    {"alias": "rollNumber", "text": "What is the roll number?"},
+    {"alias": "boardName", "text": "What is the name of the board or university?"},
+    {"alias": "percentage", "text": "What is the percentage or CGPA?"}
+  ],
+  "signals": [
+    {"pattern": "(?i)marks? (obtained|secured|sheet)", "weight": 40},
+    {"pattern": "(?i)(board|university).*exam", "weight": 25},
+    {"pattern": "(?i)roll no", "weight": 20},
+    {"pattern": "(?i)percentage|cgpa|grade", "weight": 20},
+    {"pattern": "अंकपत्र|अंक तालिका", "weight": 30},
+    {"pattern": "(?i)income certificate", "weight": -40},
+    {"pattern": "(?i)domicile|residence", "weight": -30}
+  ],
+  "minScore": 50,
+  "minMargin": 20
+}

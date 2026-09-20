@@ -1,0 +1,32 @@
+{
+  "documentType": "aadhaar",
+  "displayName": "Aadhaar Card",
+  "displayNameHi": "आधार कार्ड",
+  "requiredFields": [
+    {"fieldName": "applicantName", "label": "Name", "labelHi": "नाम"},
+    {"fieldName": "dob", "label": "Date of Birth", "labelHi": "जन्म तिथि"},
+    {"fieldName": "aadhaarNumber", "label": "Aadhaar Number", "labelHi": "आधार संख्या", "sensitive": true, "doNotStore": true}
+  ],
+  "optionalFields": [
+    {"fieldName": "gender", "label": "Gender"},
+    {"fieldName": "address", "label": "Address", "sensitive": true}
+  ],
+  "validity": {"type": "permanent"},
+  "queries": [
+    {"alias": "applicantName", "text": "What is the name of the person?"},
+    {"alias": "dob", "text": "What is the date of birth?"},
+    {"alias": "aadhaarNumber", "text": "What is the 12-digit Aadhaar number?"},
+    {"alias": "gender", "text": "What is the gender?"}
+  ],
+  "signals": [
+    {"pattern": "(?i)unique identification authority", "weight": 40},
+    {"pattern": "(?i)aadhaar", "weight": 30},
+    {"pattern": "आधार", "weight": 30},
+    {"pattern": "\\b\\d{4}\\s?\\d{4}\\s?\\d{4}\\b", "weight": 35},
+    {"pattern": "(?i)government of india", "weight": 15},
+    {"pattern": "(?i)marks obtained", "weight": -40},
+    {"pattern": "(?i)income certificate", "weight": -30}
+  ],
+  "minScore": 50,
+  "minMargin": 20
+}

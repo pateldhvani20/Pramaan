@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+.venv/
+.pytest_cache/
+
+# Node
+node_modules/
+
+# AWS CDK
+cdk.out/
+
+# IDE files
+.vscode/
+.idea/
+.env
+
+# OS files
+.DS_Store

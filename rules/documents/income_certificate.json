@@ -1,0 +1,38 @@
+{
+  "documentType": "income_certificate",
+  "displayName": "Income Certificate",
+  "displayNameHi": "आय प्रमाण पत्र",
+  "requiredFields": [
+    {"fieldName": "applicantName", "label": "Applicant Name", "labelHi": "आवेदक का नाम"},
+    {"fieldName": "issueDate", "label": "Date of Issue", "labelHi": "जारी करने की तिथि"},
+    {"fieldName": "incomeAmount", "label": "Annual Income", "labelHi": "वार्षिक आय"}
+  ],
+  "optionalFields": [
+    {"fieldName": "guardianName", "label": "Father/Guardian Name"},
+    {"fieldName": "validUntil", "label": "Valid Until"},
+    {"fieldName": "issuingAuthority", "label": "Issuing Authority"}
+  ],
+  "validity": {
+    "type": "rule_derived",
+    "monthsFromIssue": 12
+  },
+  "queries": [
+    {"alias": "applicantName", "text": "What is the name of the applicant or person?"},
+    {"alias": "issueDate", "text": "What is the date of issue?"},
+    {"alias": "incomeAmount", "text": "What is the annual income amount?"},
+    {"alias": "guardianName", "text": "What is the father or guardian name?"},
+    {"alias": "validUntil", "text": "What is the validity date or valid until date?"},
+    {"alias": "issuingAuthority", "text": "Who is the issuing authority?"}
+  ],
+  "signals": [
+    {"pattern": "(?i)income certificate", "weight": 40},
+    {"pattern": "(?i)annual income", "weight": 25},
+    {"pattern": "(?i)(tahsildar|mamlatdar|revenue|collector|tehsildar)", "weight": 20},
+    {"pattern": "आय प्रमाण पत्र", "weight": 30},
+    {"pattern": "(?i)marks obtained", "weight": -40},
+    {"pattern": "(?i)aadhaar", "weight": -30},
+    {"pattern": "(?i)domicile|residence certificate", "weight": -25}
+  ],
+  "minScore": 50,
+  "minMargin": 20
+}
