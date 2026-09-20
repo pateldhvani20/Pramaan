@@ -1,0 +1,177 @@
+.landing {
+  min-height: 100vh;
+  background: var(--surface);
+}
+
+/* Nav */
+.landing-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(251, 248, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--neutral-border);
+}
+
+.landing-nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.landing-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.landing-brand-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--on-surface);
+  letter-spacing: -0.01em;
+}
+
+.landing-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.landing-nav-links a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--on-surface-variant);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.landing-nav-links a:hover {
+  color: var(--primary);
+}
+
+/* Hero */
+.landing-hero {
+  padding: 6rem 2rem 4rem;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(236, 236, 255, 0.4) 0%, transparent 100%);
+}
+
+.landing-hero-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.landing-hero-badge {
+  margin-bottom: 1.5rem;
+}
+
+.landing-hero-title {
+  color: var(--on-surface);
+  margin-bottom: 1.5rem;
+}
+
+.landing-gradient-text {
+  background: linear-gradient(135deg, var(--primary), var(--tertiary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.landing-hero-desc {
+  color: var(--on-surface-variant);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.landing-hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Sections */
+.landing-section {
+  padding: 5rem 2rem;
+}
+
+.landing-section-alt {
+  background: var(--surface-container-low);
+}
+
+.landing-section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.landing-section-title {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.landing-section-desc {
+  text-align: center;
+  color: var(--on-surface-variant);
+  margin-bottom: 3rem;
+}
+
+.landing-features .card {
+  text-align: left;
+}
+
+.landing-feature-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Steps */
+.landing-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.landing-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.landing-step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+/* Footer */
+.landing-footer {
+  border-top: 1px solid var(--neutral-border);
+  padding: 2rem;
+  text-align: center;
+}
+
+.landing-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .landing-hero { padding: 3rem 1rem 2rem; }
+  .landing-hero-actions { flex-direction: column; }
+  .landing-nav-links a { display: none; }
+}

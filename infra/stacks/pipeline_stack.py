@@ -21,7 +21,9 @@ class PipelineStack(Stack):
                 code=_lambda.Code.from_asset("../backend"),
                 timeout=Duration.seconds(30),
                 environment={
-                    "DOCVERIFY_TABLE": core_stack.table.table_name
+                    "DOCVERIFY_TABLE": core_stack.table.table_name,
+                    "RAW_BUCKET": core_stack.raw_bucket.bucket_name,
+                    "KMS_KEY_ARN": core_stack.kms_key.key_arn,
                 }
             )
 
@@ -34,9 +36,30 @@ class PipelineStack(Stack):
         persist_lambda = create_lambda("PersistLambda", "workflow.handlers.persist_handler")
         cleanup_lambda = create_lambda("CleanupLambda", "workflow.handlers.cleanup_handler")
 
-        for fn in [ingest_lambda, extraction_lambda, classification_lambda, completeness_lambda, verification_lambda, explanation_lambda, persist_lambda, cleanup_lambda]:
+        all_lambdas = [ingest_lambda, extraction_lambda, classification_lambda, completeness_lambda, verification_lambda, explanation_lambda, persist_lambda, cleanup_lambda]
+
+        for fn in all_lambdas:
             core_stack.table.grant_read_write_data(fn)
             core_stack.kms_key.grant_encrypt_decrypt(fn)
+            core_stack.raw_bucket.grant_read_write(fn)
+
+        # Textract permissions for extraction Lambda
+        extraction_lambda.add_to_role_policy(iam.PolicyStatement(
+            actions=["textract:AnalyzeDocument", "textract:DetectDocumentText"],
+            resources=["*"]
+        ))
+
+        # Bedrock permissions for explanation Lambda
+        explanation_lambda.add_to_role_policy(iam.PolicyStatement(
+            actions=["bedrock:InvokeModel"],
+            resources=["arn:aws:bedrock:ap-south-1::foundation-model/*"]
+        ))
+
+        # S3 cleanup permissions
+        cleanup_lambda.add_to_role_policy(iam.PolicyStatement(
+            actions=["s3:DeleteObject", "s3:HeadObject"],
+            resources=[f"{core_stack.raw_bucket.bucket_arn}/*"]
+        ))
 
         ingest_task = tasks.LambdaInvoke(self, "IngestGate", lambda_function=ingest_lambda)
         extraction_task = tasks.LambdaInvoke(self, "Extraction", lambda_function=extraction_lambda)
