@@ -154,46 +154,46 @@ sequenceDiagram
 
     Applicant->>UI: Selects Profile (Post-Matric Scholarship)
     UI->>APIGW: POST /verifications
-    APIGW-->>UI: 201 Created (sessionId: unguessable 128-bit token)
+    APIGW-->>UI: 201 Created (sessionId)
     
     rect rgb(240, 245, 255)
-    Note over UI,S3: Direct-to-S3 Presigned Upload (Zero Binary Routing via API)
+    Note over UI,S3: Direct-to-S3 Presigned Upload
     UI->>APIGW: POST /verifications/{id}/uploads (filename, type)
     APIGW-->>UI: 200 OK (Presigned POST URL, 5 min TTL, 10MB limit)
     UI->>S3: POST document binary directly to S3
     end
 
-    Applicant->>UI: Clicks "Run Verification"
+    Applicant->>UI: Clicks Run Verification
     UI->>APIGW: POST /verifications/{id}/run
     APIGW->>SFN: start_execution(sessionId)
     
     rect rgb(255, 248, 240)
     Note over SFN,Engine: Serverless Processing & Verification
-    SFN->>SFN: 1. IngestGate (Magic bytes, SHA-256, page limit)
-    SFN->>SFN: 2. Textract (Key-Value extraction & OCR confidence)
+    SFN->>SFN: 1. IngestGate (Magic bytes, SHA-256 digest)
+    SFN->>SFN: 2. Textract (OCR and Key-Value extraction)
     SFN->>SFN: 3. Classifier (Weighted signal scoring)
-    SFN->>SFN: 4. Completeness (Check required fields; mask Aadhaar)
+    SFN->>SFN: 4. Completeness (Check fields and mask Aadhaar)
     SFN->>Engine: 5. Execute Pure Python Verification Engine
-    Engine-->>SFN: Computed Findings & Final ReadinessStatus (GREEN/AMBER/ORANGE/RED)
+    Engine-->>SFN: Computed Findings and Final ReadinessStatus
     end
 
     rect rgb(245, 255, 245)
-    Note over SFN,Bedrock: Generative AI Explanation (Strict Three-Gate Sandbox)
-    SFN->>Bedrock: 6. Pass Sanitized Finding Structs (<<<delimiters>>>)
-    Bedrock-->>SFN: Plain-Language Hindi/English Guidance & Action Steps
+    Note over SFN,Bedrock: Generative AI Explanation Sandbox
+    SFN->>Bedrock: 6. Pass Sanitized Finding Structs
+    Bedrock-->>SFN: Plain-Language Hindi and English Guidance
     end
 
     rect rgb(255, 240, 240)
-    Note over SFN,S3: Atomic State Persistence & Immediate Data Destruction
-    SFN->>DDB: 7. Atomic Write: Save metadata, findings & status
+    Note over SFN,S3: State Persistence and Data Destruction
+    SFN->>DDB: 7. Atomic Write: Save metadata and findings
     SFN->>S3: 8. DeleteObject (Destroy raw uploads)
     SFN->>S3: 9. HeadObject (Confirm 404 Not Found)
     end
 
     UI->>APIGW: GET /verifications/{id} (Polling)
     APIGW->>DDB: GetItem(SESSION#{id})
-    APIGW-->>UI: 200 OK (Status, Findings, Action Steps, Bilingual Explanations)
-    UI-->>Applicant: Renders Color-Coded Findings & Actionable Guidance
+    APIGW-->>UI: 200 OK (Status, Findings, Action Steps)
+    UI-->>Applicant: Renders Color-Coded Findings and Guidance
 ```
 
 ---
