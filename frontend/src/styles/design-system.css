@@ -475,6 +475,19 @@ img {
    ============================================================ */
 #root {
   min-height: 100vh;
+  width: 100%;
+}
+
+.landing-layout {
+  min-height: 100vh;
+  width: 100%;
+  display: block;
+}
+
+.landing-main {
+  width: 100%;
+  min-height: 100vh;
+  display: block;
 }
 
 .app-layout {

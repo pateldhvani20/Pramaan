@@ -15,9 +15,9 @@ function AppLayout() {
   const isLanding = location.pathname === '/';
 
   return (
-    <>
+    <div className={isLanding ? 'landing-layout' : 'app-layout'}>
       {!isLanding && <Sidebar />}
-      <main className={isLanding ? '' : 'app-main'}>
+      <main className={isLanding ? 'landing-main' : 'app-main'}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -29,7 +29,7 @@ function AppLayout() {
           <Route path="/applications" element={<MyApplications />} />
         </Routes>
       </main>
-    </>
+    </div>
   );
 }
 
@@ -37,9 +37,7 @@ export default function App() {
   return (
     <AppProvider>
       <BrowserRouter>
-        <div className="app-layout">
-          <AppLayout />
-        </div>
+        <AppLayout />
       </BrowserRouter>
     </AppProvider>
   );
